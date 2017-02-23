@@ -8,7 +8,7 @@
  * Controller of the sisAsistenciasApp
  */
 angular.module('sisAsistenciasApp')
-.controller('TrabajadoresCtrl', function ($scope, $interval, $q) {
+.controller('TrabajadoresCtrl', function ($scope, i18nService) {
     $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
         if( col.filters[0].term ){
             return 'header-filtered';
@@ -16,6 +16,7 @@ angular.module('sisAsistenciasApp')
             return '';
         }
     };
+    $scope.lang = 'es';
     
     $scope.gridOptions = {
         showGridFooter: true,
