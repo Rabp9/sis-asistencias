@@ -25,7 +25,8 @@ angular
     'ui.grid.rowEdit',
     'ui.grid.resizeColumns', 
     'ui.grid.moveColumns',
-    'ui.grid.exporter'
+    'ui.grid.exporter',
+    'ui.bootstrap.contextMenu'
 ])
 .config(function($stateProvider, $urlRouterProvider) {
     var mainState = {

@@ -53,7 +53,11 @@ angular.module('sisAsistenciasApp')
         var promise = $q.defer();
         $scope.gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
         trabajadoresService.save(rowEntity, function(data) {
-            promise.resolve();
+            if (data.message.type === 'success') {
+                promise.resolve();
+            } else {
+                promise.reject();
+            }
         });
         return promise.promise;
     };
@@ -79,4 +83,20 @@ angular.module('sisAsistenciasApp')
     trabajadoresService.get(function(data) {
         $scope.gridOptions.data = data.trabajadores;
     });
+    
+    $scope.menuOptions = [
+        ['Deshabilitar', function ($itemScope, $event, modelValue, text, $li) {
+            var trabajador = $itemScope.row.entity;
+            trabajador.estado_id = 2;
+            trabajadoresService.save(trabajador, function(data) {
+                if (data.message.type === 'success') {
+                    $scope.gridOptions.data = $scope.gridOptions.data.filter(function(trabajador) {
+                        return trabajador.dni != data.trabajador.dni;
+                    });
+                } else {
+                    
+                }
+            });
+        }],
+    ];
 });
