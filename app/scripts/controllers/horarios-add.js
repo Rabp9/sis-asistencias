@@ -2,25 +2,25 @@
 
 /**
  * @ngdoc function
- * @name sisAsistenciasApp.controller:TrabajadoresAddCtrl
+ * @name sisAsistenciasApp.controller:HorariosAddCtrl
  * @description
- * # TrabajadoresAddCtrl
+ * # HorariosAddCtrl
  * Controller of the sisAsistenciasApp
  */
 angular.module('sisAsistenciasApp')
-.controller('TrabajadoresAddCtrl', function ($scope, $uibModalInstance, trabajadoresService) {
-    $scope.trabajador = {};
-    
+.controller('HorariosAddCtrl', function ($scope, $uibModalInstance, horariosService) {
+    $scope.horario = {};
+
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel');
     };
 
-    $scope.saveTrabajador = function(trabajador, boton) {
+    $scope.saveHorario = function(horario, boton) {
         $('#' + boton).text('Guardando...');
         $('#' + boton).addClass('disabled');
         $('#' + boton).prop('disabled', true);
      
-        trabajadoresService.save(trabajador, function(data) {
+        horariosService.save(horario, function(data) {
             $('#' + boton).removeClass('disabled');
             $('#' + boton).prop('disabled', false);
             $uibModalInstance.close(data);

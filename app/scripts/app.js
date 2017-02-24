@@ -26,7 +26,8 @@ angular
     'ui.grid.resizeColumns', 
     'ui.grid.moveColumns',
     'ui.grid.exporter',
-    'ui.bootstrap.contextMenu'
+    'ui.bootstrap.contextMenu',
+    'angularValidator'
 ])
 .config(function($stateProvider, $urlRouterProvider) {
     var mainState = {
@@ -56,8 +57,18 @@ angular
         title: 'Horarios'
     };
     
+    var asignacionesState = {
+        name: 'asignaciones',
+        url: '/asignaciones',
+        templateUrl: 'views/asignaciones.html',
+        controller: 'AsignacionesCtrl',
+        controllerAs: 'asignaciones',
+        title: 'Asignaciones'
+    };
+    
     $stateProvider.state(mainState);
     $stateProvider.state(trabajadoresState);
     $stateProvider.state(horariosState);
+    $stateProvider.state(asignacionesState);
     $urlRouterProvider.when('', '/');
 }).path_location = 'http://localhost:8000/sis-asistencias-backend/';

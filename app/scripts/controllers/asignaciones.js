@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name sisAsistenciasApp.controller:TrabajadoresCtrl
+ * @name sisAsistenciasApp.controller:AsignacionesCtrl
  * @description
- * # TrabajadoresCtrl
+ * # AsignacionesCtrl
  * Controller of the sisAsistenciasApp
  */
 angular.module('sisAsistenciasApp')
-.controller('TrabajadoresCtrl', function ($scope, i18nService, $uibModal, trabajadoresService, $q) {
+.controller('AsignacionesCtrl', function ($scope, i18nService, $uibModal, trabajadoresService, $q) {
     $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
         if( col.filters[0].term ){
             return 'header-filtered';
@@ -43,7 +43,7 @@ angular.module('sisAsistenciasApp')
         exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
         columnDefs: [
             { displayName: 'DNI', name: 'dni', field: 'dni', headerCellClass: $scope.highlightFilteredHeader, enableCellEdit: false, width: '12%', minWidth: '80' },
-            { displayName: 'Apellido Paterno',  name: 'apellidoPaterno', field: 'apellidoPaterno', enableCellEditOnFocus: false, width: '24%', minWidth: '160', headerCellClass: $scope.highlightFilteredHeader },
+            { displayName: 'Nombre Completo',  name: 'full_name', field: 'full_name', enableCellEditOnFocus: false, width: '38%', minWidth: '200', headerCellClass: $scope.highlightFilteredHeader },
             { displayName: 'Apellido Materno',  name: 'apellidoMaterno', field: 'apellidoMaterno', enableCellEditOnFocus: false, width: '24%', minWidth: '160', headerCellClass: $scope.highlightFilteredHeader },
             { displayName: 'Nombres',  name: 'nombres', field: 'nombres', enableCellEditOnFocus: false, headerCellClass: $scope.highlightFilteredHeader }
         ]
