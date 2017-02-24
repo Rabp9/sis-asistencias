@@ -8,16 +8,6 @@
  * Factory in the sisAsistenciasApp.
  */
 angular.module('sisAsistenciasApp')
-  .factory('trabajadoresService', function () {
-    // Service logic
-    // ...
-
-    var meaningOfLife = 42;
-
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
-      }
-    };
-  });
+.factory('trabajadoresService', function ($resource) {
+    return $resource(angular.module("sisAsistenciasApp").path_location + "trabajadores/:id.json", {id:'@id'});
+});

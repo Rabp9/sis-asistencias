@@ -8,7 +8,7 @@
  * Controller of the sisAsistenciasApp
  */
 angular.module('sisAsistenciasApp')
-.controller('TrabajadoresCtrl', function ($scope, i18nService) {
+.controller('TrabajadoresCtrl', function ($scope, i18nService, $uibModal, trabajadoresService, $q) {
     $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
         if( col.filters[0].term ){
             return 'header-filtered';
@@ -46,31 +46,16 @@ angular.module('sisAsistenciasApp')
             { displayName: 'Apellido Paterno',  name: 'apellidoPaterno', field: 'apellidoPaterno', enableCellEditOnFocus: false, headerCellClass: $scope.highlightFilteredHeader },
             { displayName: 'Apellido Materno',  name: 'apellidoMaterno', field: 'apellidoMaterno', enableCellEditOnFocus: false, headerCellClass: $scope.highlightFilteredHeader },
             { displayName: 'Nombres',  name: 'nombres', field: 'nombres', enableCellEditOnFocus: false, headerCellClass: $scope.highlightFilteredHeader }
-        ],
-        data: [
-            {
-                dni: '70801887',
-                apellidoPaterno: 'Carney',
-                apellidoMaterno: 'Carney',
-                nombres: 'Cox'
-            },
-            {
-                dni: '25789452',
-                apellidoPaterno: 'Cardasdney',
-                apellidoMaterno: 'Cardasdney',
-                nombres: 'Csadsadox'
-            },
-            {
-                dni: '04878789',
-                apellidoPaterno: 'Carneasdasday',
-                apellidoMaterno: 'Carneasdasday',
-                nombres: 'Codsadsa'
-            }
         ]
     };
     
-    $scope.saveRow = function( rowEntity ) {
-        console.log(rowEntity);
+    $scope.saveRow = function(rowEntity) {
+        var promise = $q.defer();
+        $scope.gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
+        trabajadoresService.save(rowEntity, function(data) {
+            promise.resolve();
+        });
+        return promise.promise;
     };
     
     $scope.gridOptions.onRegisterApi = function(gridApi){
@@ -78,4 +63,20 @@ angular.module('sisAsistenciasApp')
         $scope.gridApi = gridApi;
         gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
     };
+       
+    $scope.showTrabajadoresAdd = function() {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/trabajadores-add.html',
+            controller: 'TrabajadoresAddCtrl',
+            backdrop: false
+        });
+        
+        modalInstance.result.then(function (data) {
+            $scope.gridOptions.data.push(data.trabajador);
+        });
+    };
+    
+    trabajadoresService.get(function(data) {
+        $scope.gridOptions.data = data.trabajadores;
+    });
 });

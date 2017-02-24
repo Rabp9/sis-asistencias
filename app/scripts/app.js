@@ -59,4 +59,4 @@ angular
     $stateProvider.state(trabajadoresState);
     $stateProvider.state(horariosState);
     $urlRouterProvider.when('', '/');
-});
+}).path_location = 'http://localhost:8000/sis-asistencias-backend/';
