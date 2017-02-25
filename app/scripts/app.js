@@ -66,9 +66,29 @@ angular
         title: 'Asignaciones'
     };
     
+    var registroState = {
+        name: 'registro',
+        url: '/registro',
+        templateUrl: 'views/registro.html',
+        controller: 'RegistroCtrl',
+        controllerAs: 'registro',
+        title: 'Registro'
+    };
+    
+    var reporteState = {
+        name: 'reporte',
+        url: '/reporte',
+        templateUrl: 'views/reporte.html',
+        controller: 'ReporteCtrl',
+        controllerAs: 'reporte',
+        title: 'reporte'
+    };
+    
     $stateProvider.state(mainState);
     $stateProvider.state(trabajadoresState);
     $stateProvider.state(horariosState);
     $stateProvider.state(asignacionesState);
+    $stateProvider.state(registroState);
+    $stateProvider.state(reporteState);
     $urlRouterProvider.when('', '/');
-}).path_location = 'http://localhost:8000/sis-asistencias-backend/';
+}).pathLocation = 'http://localhost:8000/sis-asistencias-backend/';

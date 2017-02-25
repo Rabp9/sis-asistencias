@@ -9,5 +9,5 @@
  */
 angular.module('sisAsistenciasApp')
 .factory('horariosService', function ($resource) {
-    return $resource(angular.module("sisAsistenciasApp").path_location + "horarios/:id.json");
+    return $resource(angular.module('sisAsistenciasApp').pathLocation + 'horarios/:id.json');
 });

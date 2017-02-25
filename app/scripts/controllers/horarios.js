@@ -28,7 +28,7 @@ angular.module('sisAsistenciasApp')
         exporterPdfDefaultStyle: {fontSize: 9},
         exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
         exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-        exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+        exporterPdfHeader: { text: 'My Header', style: 'headerStyle' },
         exporterPdfFooter: function ( currentPage, pageCount ) {
             return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
         },
@@ -40,7 +40,7 @@ angular.module('sisAsistenciasApp')
         exporterPdfOrientation: 'portrait',
         exporterPdfPageSize: 'LETTER',
         exporterPdfMaxGridWidth: 500,
-        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+        exporterCsvLinkElement: angular.element(document.querySelectorAll('.custom-csv-link-location')),
         columnDefs: [
             { displayName: 'Código', name: 'id', field: 'id', headerCellClass: $scope.highlightFilteredHeader, enableCellEdit: false, width: '10%', minWidth: '40' },
             { displayName: 'Descripción',  name: 'descripcion', field: 'descripcion', enableCellEditOnFocus: false,  minWidth: '160', headerCellClass: $scope.highlightFilteredHeader },
@@ -50,13 +50,13 @@ angular.module('sisAsistenciasApp')
     };
     
     $scope.saveRow = function(rowEntity) {
-        $scope.loading_edit = true;
+        $scope.loadingEdit = true;
         var promise = $q.defer();
         $scope.gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
         horariosService.save(rowEntity, function(data) {
             if (data.message.type === 'success') {
                 promise.resolve();
-                $scope.loading_edit = false;
+                $scope.loadingEdit = false;
             } else {
                 promise.reject();
             }
@@ -93,7 +93,7 @@ angular.module('sisAsistenciasApp')
             horariosService.save(horario, function(data) {
                 if (data.message.type === 'success') {
                     $scope.gridOptions.data = $scope.gridOptions.data.filter(function(horario) {
-                        return horario.id != data.horario.dni;
+                        return horario.id !== data.horario.dni;
                     });
                 } else {
                     

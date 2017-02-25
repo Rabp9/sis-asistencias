@@ -9,7 +9,7 @@
  */
 angular.module('sisAsistenciasApp')
 .controller('AsignacionesCtrl', function ($scope, i18nService, $uibModal, trabajadoresService, $q) {
-    $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
+    $scope.highlightFilteredHeader = function(row, rowRenderIndex, col, colRenderIndex ) {
         if( col.filters[0].term ){
             return 'header-filtered';
         } else {
@@ -28,7 +28,7 @@ angular.module('sisAsistenciasApp')
         exporterPdfDefaultStyle: {fontSize: 9},
         exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
         exporterPdfTableHeaderStyle: {fontSize: 10, bold: true, italics: true, color: 'red'},
-        exporterPdfHeader: { text: "My Header", style: 'headerStyle' },
+        exporterPdfHeader: { text: 'My Header', style: 'headerStyle' },
         exporterPdfFooter: function ( currentPage, pageCount ) {
             return { text: currentPage.toString() + ' of ' + pageCount.toString(), style: 'footerStyle' };
         },
@@ -40,23 +40,23 @@ angular.module('sisAsistenciasApp')
         exporterPdfOrientation: 'portrait',
         exporterPdfPageSize: 'LETTER',
         exporterPdfMaxGridWidth: 500,
-        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+        exporterCsvLinkElement: angular.element(document.querySelectorAll('.custom-csv-link-location')),
         columnDefs: [
             { displayName: 'DNI', name: 'dni', field: 'dni', headerCellClass: $scope.highlightFilteredHeader, enableCellEdit: false, width: '12%', minWidth: '80' },
             { displayName: 'Nombre Completo',  name: 'full_name', field: 'full_name', enableCellEditOnFocus: false, width: '38%', minWidth: '200', headerCellClass: $scope.highlightFilteredHeader },
-            { displayName: 'Apellido Materno',  name: 'apellidoMaterno', field: 'apellidoMaterno', enableCellEditOnFocus: false, width: '24%', minWidth: '160', headerCellClass: $scope.highlightFilteredHeader },
-            { displayName: 'Nombres',  name: 'nombres', field: 'nombres', enableCellEditOnFocus: false, headerCellClass: $scope.highlightFilteredHeader }
+            { displayName: 'Horario',  name: 'horarioDescripcion', field: 'horarios_trabajador.horario.descripcion', enableCellEditOnFocus: false, width: '24%', minWidth: '160', headerCellClass: $scope.highlightFilteredHeader },
+            { displayName: 'Detalle',  name: 'detalle', field: 'horarios_trabajador.horario.detalleHorario', enableCellEditOnFocus: false, headerCellClass: $scope.highlightFilteredHeader }
         ]
     };
     
     $scope.saveRow = function(rowEntity) {
-        $scope.loading_edit = true;
+        $scope.loadingEdit = true;
         var promise = $q.defer();
         $scope.gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
         trabajadoresService.save(rowEntity, function(data) {
             if (data.message.type === 'success') {
                 promise.resolve();
-                $scope.loading_edit = false;
+                $scope.loadingEdit = false;
             } else {
                 promise.reject();
             }
@@ -87,18 +87,5 @@ angular.module('sisAsistenciasApp')
     });
     
     $scope.menuOptions = [
-        ['Deshabilitar', function ($itemScope, $event, modelValue, text, $li) {
-            var trabajador = $itemScope.row.entity;
-            trabajador.estado_id = 2;
-            trabajadoresService.save(trabajador, function(data) {
-                if (data.message.type === 'success') {
-                    $scope.gridOptions.data = $scope.gridOptions.data.filter(function(trabajador) {
-                        return trabajador.dni != data.trabajador.dni;
-                    });
-                } else {
-                    
-                }
-            });
-        }],
     ];
 });
