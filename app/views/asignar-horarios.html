@@ -1,0 +1,25 @@
+<form name="frmAsignarHorarios" angular-validator-submit="saveAsignarHorario(trabajador, horarioSelected, 'btnSavAsignarHorario')" 
+    angular-validator novalidate >
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Asignar Horario</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="txtTrabajador">Trabajador</label>
+            <p id="txtTrabajador" class="form-control">{{trabajador.full_name}}</p>
+        </div>
+        <div class="form-group">
+            <label for="sltHorario">Horario</label>
+            <select id="sltHorario" class="form-control"
+                ng-options="horario as horario.descripcion_full for horario in horarios"
+                ng-model="horarioSelected" required>
+                <option value="">Selecciona un Horario</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="cancel()">Cerrar</button>
+        <button id="btnSavAsignarHorario" class="btn btn-success" type="submit">Asignar Horario</button>
+    </div>
+</form>

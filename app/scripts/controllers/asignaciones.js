@@ -8,7 +8,7 @@
  * Controller of the sisAsistenciasApp
  */
 angular.module('sisAsistenciasApp')
-.controller('AsignacionesCtrl', function ($scope, i18nService, $uibModal, trabajadoresService, $q) {
+.controller('AsignacionesCtrl', function ($scope, i18nService, $uibModal, $q, trabajadoresService) {
     $scope.highlightFilteredHeader = function(row, rowRenderIndex, col, colRenderIndex ) {
         if( col.filters[0].term ){
             return 'header-filtered';
@@ -22,8 +22,7 @@ angular.module('sisAsistenciasApp')
         showGridFooter: true,
         enableFiltering: true,
         enableSorting: true,
-        enableGridMenu: true, 
-        enableCellEditOnFocus: true,
+        enableGridMenu: true,
         exporterCsvFilename: 'myFile.csv',
         exporterPdfDefaultStyle: {fontSize: 9},
         exporterPdfTableStyle: {margin: [30, 30, 30, 30]},
@@ -42,44 +41,11 @@ angular.module('sisAsistenciasApp')
         exporterPdfMaxGridWidth: 500,
         exporterCsvLinkElement: angular.element(document.querySelectorAll('.custom-csv-link-location')),
         columnDefs: [
-            { displayName: 'DNI', name: 'dni', field: 'dni', headerCellClass: $scope.highlightFilteredHeader, enableCellEdit: false, width: '12%', minWidth: '80' },
-            { displayName: 'Nombre Completo',  name: 'full_name', field: 'full_name', enableCellEditOnFocus: false, width: '38%', minWidth: '200', headerCellClass: $scope.highlightFilteredHeader },
-            { displayName: 'Horario',  name: 'horarioDescripcion', field: 'horarios_trabajador.horario.descripcion', enableCellEditOnFocus: false, width: '24%', minWidth: '160', headerCellClass: $scope.highlightFilteredHeader },
-            { displayName: 'Detalle',  name: 'detalle', field: 'horarios_trabajador.horario.detalleHorario', enableCellEditOnFocus: false, headerCellClass: $scope.highlightFilteredHeader }
+            { displayName: 'DNI', name: 'dni', field: 'dni', headerCellClass: $scope.highlightFilteredHeader, width: '12%', minWidth: '80' },
+            { displayName: 'Trabajador',  name: 'full_name', field: 'full_name', width: '38%', minWidth: '200', headerCellClass: $scope.highlightFilteredHeader },
+            { displayName: 'Horario',  name: 'horarioDescripcion', field: 'horariosTrabajador.horario.descripcion', width: '24%', minWidth: '160', headerCellClass: $scope.highlightFilteredHeader },
+            { displayName: 'Detalle',  name: 'detalle', field: 'horariosTrabajador.horario.detalleHorario', headerCellClass: $scope.highlightFilteredHeader }
         ]
-    };
-    
-    $scope.saveRow = function(rowEntity) {
-        $scope.loadingEdit = true;
-        var promise = $q.defer();
-        $scope.gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
-        trabajadoresService.save(rowEntity, function(data) {
-            if (data.message.type === 'success') {
-                promise.resolve();
-                $scope.loadingEdit = false;
-            } else {
-                promise.reject();
-            }
-        });
-        return promise.promise;
-    };
-    
-    $scope.gridOptions.onRegisterApi = function(gridApi){
-        //set gridApi on scope
-        $scope.gridApi = gridApi;
-        gridApi.rowEdit.on.saveRow($scope, $scope.saveRow);
-    };
-       
-    $scope.showTrabajadoresAdd = function() {
-        var modalInstance = $uibModal.open({
-            templateUrl: 'views/trabajadores-add.html',
-            controller: 'TrabajadoresAddCtrl',
-            backdrop: false
-        });
-        
-        modalInstance.result.then(function (data) {
-            $scope.gridOptions.data.push(data.trabajador);
-        });
     };
     
     trabajadoresService.get(function(data) {
@@ -87,5 +53,25 @@ angular.module('sisAsistenciasApp')
     });
     
     $scope.menuOptions = [
+        ['Asignar Horario', function ($itemScope, $event, modelValue, text, $li) {
+            var modalInstance = $uibModal.open({
+                templateUrl: 'views/asignar-horarios.html',
+                controller: 'AsignarHorariosCtrl',
+                backdrop: false,
+                resolve: {
+                    trabajador: function() {
+                        return $itemScope.row.entity;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (data) {
+                angular.forEach($scope.gridOptions.data, function(value, key) {
+                    if (value.dni === data.horariosTrabajador.trabajador_dni) {
+                        value.horariosTrabajador = data.horariosTrabajador;
+                    }
+                });
+            });
+        }]
     ];
 });

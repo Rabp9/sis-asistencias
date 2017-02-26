@@ -1,24 +1,59 @@
-<h1>Registro de Asistencias</h1>
+<h2>Registro de Asistencias</h2>
 <hr>
 <div class="row">
     <div class="col-sm-3">
         <div class="input-group">
             <label for="dtFechaInicio">Fecha de Inicio</label>
-            <input id="dtFechaInicio" type="date" class="form-control" ng-model="fechaInicio" />
+            <input id="dtFechaInicio" type="date" class="form-control" ng-model="fechaInicio" ng-change="showFechas(fechaInicio, fechaFin, trabajadorSelected)" />
         </div>
     </div>
     <div class="col-sm-3">
         <div class="input-group">
             <label for="dtFechaFin">Fecha de Cierre</label>
-            <input id="dtFechaFin" type="date" class="form-control" ng-model="dtFechaFin" />
+            <input id="dtFechaFin" type="date" class="form-control" ng-model="fechaFin" ng-change="showFechas(fechaInicio, fechaFin, trabajadorSelected)" />
         </div>
     </div>
     <div class="col-sm-6">
         <div class="input-group">
             <label for="sltTrabajador">Trabajador</label>
-            <select class="form-control" id="sltTrabajador" style="width: 85%">
+            <select id="sltTrabajador" class="form-control"
+                ng-options="trabajador as trabajador.full_name for trabajador in trabajadores"
+                ng-model="trabajadorSelected"  ng-change="showFechas(fechaInicio, fechaFin, trabajadorSelected)" required>
                 <option value="">Selecciona un Trabajador</option>
             </select>
         </div>
     </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Trabajador</th>
+                <th>Fecha</th>
+                <th>H. In. Marcado</th>
+                <th>H. In. Horario</th>
+                <th>H. Sal. Marcado</th>
+                <th>H. Sal. Horario</th>
+                <th>Min. Tard.</th>
+                <th>Min. Tard. Acum.</th>
+                <th>Condición</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="registro in registros">
+                <td>{{ registro.trabajador.full_name }}</td>
+                <td>{{ registro.fecha }}</td>
+                <td>{{ registro.hora_in }}</td>
+                <td>{{ registro.horario_hora_in }}</td>
+                <td>{{ registro.hora_out }}</td>
+                <td>{{ registro.horario_hora_out }}</td>
+                <td></td>
+                <td></td>
+                <td>{{ registro.condicion.descripcion }}</td>
+                <td>{{ registro.observacion }}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
