@@ -8,12 +8,16 @@
  * Controller of the sisAsistenciasApp
  */
 angular.module('sisAsistenciasApp')
-.controller('RegistroCtrl', function ($scope, trabajadoresService, registrosService) {
+.controller('RegistroCtrl', function ($scope, trabajadoresService, condicionesService, registrosService) {
     trabajadoresService.get(function(data) {
         $scope.trabajadores = data.trabajadores;
     });
     $('#dvContainer').removeClass('container');
     $('#dvContainer').addClass('container-fluid');
+    
+    condicionesService.get(function(data) {
+        $scope.condiciones = data.condiciones;
+    });
     
     $scope.showFechas = function(fechaInicio, fechaFin, trabajadorSelected) {
         fechaInicio = formatDate(fechaInicio);

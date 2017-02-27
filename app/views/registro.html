@@ -23,6 +23,7 @@
             </select>
         </div>
     </div>
+    <button class="btn" ng-click="showFechas(fechaInicio, fechaFin, trabajadorSelected)"><span class="glyphicon glyphicon-search"></span></button>
 </div>
 
 <div class="table-responsive">
@@ -31,13 +32,12 @@
             <tr>
                 <th>Trabajador</th>
                 <th>Fecha</th>
-                <th>H. In. Marcado</th>
-                <th>H. In. Horario</th>
-                <th>H. Sal. Marcado</th>
-                <th>H. Sal. Horario</th>
-                <th>Min. Tard.</th>
-                <th>Min. Tard. Acum.</th>
-                <th>Condición</th>
+                <th>H. Marcación</th>
+                <th>H. Entrada</th>
+                <th>Marc. Salida</th>
+                <th>Tardanza</th>
+                <th>Min. Acumulados</th>
+                <th>Ocurrencia</th>
                 <th>Observación</th>
             </tr>
         </thead>
@@ -48,10 +48,15 @@
                 <td>{{ registro.hora_in }}</td>
                 <td>{{ registro.horario_hora_in }}</td>
                 <td>{{ registro.hora_out }}</td>
-                <td>{{ registro.horario_hora_out }}</td>
+                <td>{{ registro.minTarde }}</td>
                 <td></td>
-                <td></td>
-                <td>{{ registro.condicion.descripcion }}</td>
+                <td>
+                    <select class="form-control"
+                        ng-options="condicion.id as condicion.descripcion for condicion in condiciones"
+                        ng-model="registro.condicion_id" required>
+                        <option value="">Selecciona una Condición</option>
+                    </select>
+                </td>
                 <td>{{ registro.observacion }}</td>
             </tr>
         </tbody>

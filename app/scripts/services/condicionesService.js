@@ -8,16 +8,6 @@
  * Factory in the sisAsistenciasApp.
  */
 angular.module('sisAsistenciasApp')
-  .factory('condicionesService', function () {
-    // Service logic
-    // ...
-
-    var meaningOfLife = 42;
-
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
-      }
-    };
-  });
+.factory('condicionesService', function ($resource) {
+    return $resource(angular.module('sisAsistenciasApp').pathLocation + 'condiciones/:id.json');
+});
